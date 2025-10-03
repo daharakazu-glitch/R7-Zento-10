@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025年度 第3回 全統記述模試 英語 重要語句復習アプリ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 24px;
+            transition: all 0.3s ease-in-out;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+        .btn-primary {
+            background-color: #3b82f6;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #2563eb;
+        }
+        .btn-secondary {
+            background-color: #6b7280;
+            color: white;
+        }
+         .btn-secondary:hover {
+            background-color: #4b5563;
+        }
+        .btn-green {
+            background-color: #10b981;
+            color: white;
+        }
+        .btn-green:hover {
+            background-color: #059669;
+        }
+        .btn-red {
+            background-color: #ef4444;
+            color: white;
+        }
+        .btn-disabled {
+            background-color: #d1d5db;
+            cursor: not-allowed;
+        }
+        .hidden {
+            display: none;
+        }
+        .quiz-option {
+            border: 2px solid #e5e7eb;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .quiz-option:hover {
+            border-color: #3b82f6;
+            background-color: #eff6ff;
+        }
+        .quiz-option.selected {
+            border-color: #3b82f6;
+            background-color: #dbeafe;
+        }
+        .quiz-option.correct {
+            border-color: #10b981;
+            background-color: #d1fae5;
+        }
+        .quiz-option.incorrect {
+            border-color: #ef4444;
+            background-color: #fee2e2;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div id="app" class="max-w-3xl mx-auto p-4 sm:p-6">
+        <header class="text-center mb-6">
+            <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">2025年度 第3回 全統記述模試 英語 重要語句復習アプリ</h1>
+        </header>
+
+        <!-- Setup Section -->
+        <section id="setup-section" class="card space-y-6">
+            <div>
+                <h2 class="text-2xl font-bold mb-3">1. 学習する単語を選択</h2>
+                <div class="flex space-x-2 mb-3">
+                    <button id="select-all" class="btn btn-secondary text-sm px-3 py-1">すべて選択</button>
+                    <button id="deselect-all" class="btn btn-secondary text-sm px-3 py-1">すべて解除</button>
+                </div>
+                <div id="word-list" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 max-h-60 overflow-y-auto p-2 border rounded-lg">
+                    <!-- Word checkboxes will be inserted here -->
+                </div>
+            </div>
+
+            <div>
+                <h2 class="text-2xl font-bold mb-3">2. 学習モードを選択</h2>
+                <div class="flex space-x-4">
+                    <label class="flex items-center space-x-2 cursor-pointer">
+                        <input type="radio" name="mode" value="word" class="form-radio h-5 w-5 text-blue-600" checked>
+                        <span>単語・フレーズのみ</span>
+                    </label>
+                    <label class="flex items-center space-x-2 cursor-pointer">
+                        <input type="radio" name="mode" value="sentence" class="form-radio h-5 w-5 text-blue-600">
+                        <span>例文で学習</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="text-center sm:flex sm:flex-col md:flex-row md:justify-center md:items-center">
+                <button id="start-learning-btn" class="btn btn-primary w-full md:w-auto text-lg mb-3 md:mb-0 md:mr-4">学習を開始する</button>
+                <button id="download-pdf-btn" class="btn btn-green w-full md:w-auto text-lg">PDFでダウンロード</button>
+            </div>
+        </section>
+
+        <!-- Learning Section -->
+        <section id="learning-section" class="card hidden text-center">
+            <div class="mb-4 text-right">
+                <span id="progress-indicator" class="text-lg font-bold text-gray-600"></span>
+            </div>
+            
+            <!-- Flashcard Area -->
+            <div id="flashcard-container" class="mb-8 min-h-[150px] flex items-center justify-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer bg-white hover:bg-gray-50 transition" title="クリックして答えを表示">
+                <div class="text-center">
+                    <p id="english-text" class="text-3xl sm:text-4xl font-bold"></p>
+                    <p id="japanese-text" class="text-xl text-gray-700 mt-4 hidden"></p>
+                </div>
+            </div>
+
+            <div class="flex justify-center items-center space-x-4 mb-8">
+                <button id="speak-btn" class="btn btn-primary"><i class="fas fa-volume-up mr-2"></i>再生</button>
+                <button id="record-btn" class="btn btn-red"><i class="fas fa-microphone mr-2"></i>録音</button>
+                <button id="play-recording-btn" class="btn btn-green btn-disabled" disabled><i class="fas fa-play mr-2"></i>自分の音声</button>
+            </div>
+             <audio id="recording-player" class="hidden"></audio>
+
+            <div class="flex justify-between">
+                <button id="prev-btn" class="btn btn-secondary"><i class="fas fa-arrow-left mr-2"></i>前へ</button>
+                <div class="flex space-x-2">
+                    <button id="back-to-setup-btn" class="btn btn-secondary bg-gray-400 hover:bg-gray-500">単語選択に戻る</button>
+                    <button id="start-test-btn" class="btn btn-primary">テストへ進む</button>
+                </div>
+                <button id="next-btn" class="btn btn-secondary">次へ<i class="fas fa-arrow-right ml-2"></i></button>
+            </div>
+        </section>
+
+        <!-- Test Options Section -->
+        <section id="test-options-section" class="card hidden text-center">
+            <h2 class="text-2xl font-bold mb-6">最終テスト</h2>
+            <p class="text-gray-600 mb-6">学習した単語の中からランダムで出題します。<br>問題数を選択してください。</p>
+            <div id="test-choices" class="flex justify-center space-x-4">
+                <!-- Test choice buttons will be here -->
+            </div>
+             <button id="back-to-learning-btn" class="btn btn-secondary mt-6 bg-gray-400 hover:bg-gray-500">学習に戻る</button>
+        </section>
+
+        <!-- Quiz Section -->
+        <section id="quiz-section" class="card hidden">
+            <div class="flex justify-between items-center mb-4">
+                 <h2 class="text-2xl font-bold">テスト中</h2>
+                 <span id="quiz-progress" class="text-lg font-bold text-gray-600"></span>
+            </div>
+            <div class="mb-6">
+                <p id="quiz-question" class="text-center text-3xl font-bold mb-6"></p>
+                <div id="quiz-options" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <!-- Quiz options will be here -->
+                </div>
+            </div>
+             <div id="feedback" class="text-center text-xl font-bold my-4 min-h-[30px]"></div>
+            <div class="text-center">
+                 <button id="next-question-btn" class="btn btn-primary hidden w-full sm:w-auto">次の問題へ</button>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section id="results-section" class="card hidden text-center">
+            <h2 class="text-3xl font-bold mb-4">テスト結果</h2>
+            <p id="score" class="text-5xl font-bold text-blue-600 mb-6"></p>
+            <div id="incorrect-answers-container" class="text-left">
+                <h3 class="text-xl font-bold mb-3">間違えた問題</h3>
+                <ul id="incorrect-answers-list" class="space-y-2 list-disc list-inside">
+                    <!-- Incorrect answers will be here -->
+                </ul>
+            </div>
+            <button id="restart-btn" class="btn btn-primary mt-8 w-full sm:w-auto text-lg">もう一度挑戦する</button>
+        </section>
+
+    </div>
+
+    <!-- PDF Download Modal -->
+    <div id="pdf-modal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50">
+        <div class="relative mx-auto p-5 border w-11/12 md:w-1/2 lg:w-1/3 shadow-lg rounded-md bg-white">
+            <div class="mt-3 text-center">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">ダウンロードするPDFの種類を選択</h3>
+                <div class="mt-4 px-7 py-3 space-y-3">
+                    <button id="download-list-btn" class="btn btn-primary w-full justify-start">1. 完全な単語のリスト</button>
+                    <button id="download-en-quiz-btn" class="btn btn-primary w-full justify-start">2. 英語の単語を解答する問題</button>
+                    <button id="download-ja-quiz-btn" class="btn btn-primary w-full justify-start">3. 単語の日本語訳を解答する問題</button>
+                    <button id="download-mixed-quiz-btn" class="btn btn-primary w-full justify-start">4. 英語と日本語が混在した問題</button>
+                    <button id="download-sentence-quiz-btn" class="btn btn-primary w-full justify-start">5. 例文の穴埋め問題</button>
+                    <button id="download-sentence-mixed-quiz-btn" class="btn btn-primary w-full justify-start">6. 例文の混合問題 (穴埋め/和訳)</button>
+                </div>
+                <div class="items-center px-4 py-3">
+                    <button id="close-modal-btn" class="btn btn-secondary w-full">キャンセル</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const vocabulary = [
+            { english: 'the Great Loop', japanese: 'グレートループ', sentence: 'Traveling the Great Loop is a dream for many boaters.', sentence_ja: 'グレートループを旅することは多くの船乗りの夢です。'},
+            { english: 'complete', japanese: '～を完全に遂行する', sentence: 'You must complete this assignment by Friday.', sentence_ja: '金曜日までにこの課題を完全に遂行しなければなりません。'},
+            { english: 'fixed', japanese: '固定的, 決められた', sentence: 'The meeting is at a fixed time and will not change.', sentence_ja: '会議は決められた時間に行われ、変更はありません。'},
+            { english: 'expect O to do', japanese: 'Oが…することを期待する', sentence: 'I expect you to do your best on the test.', sentence_ja: '私はあなたがテストで最善を尽くすことを期待しています。'},
+            { english: 'navigate', japanese: '～を(海・川などを)航行する', sentence: 'The captain will navigate the ship through the storm.', sentence_ja: '船長は嵐の中、船を航行させます。'},
+            { english: 'A, including B', japanese: 'Bを含むA', sentence: 'Many people, including my friends, came to the party.', sentence_ja: '私の友人を含む多くの人々がパーティーに来ました。'},
+            { english: 'segment', japanese: '(区間)セグメント', sentence: 'This segment of the highway is currently closed.', sentence_ja: '高速道路のこの区間は現在閉鎖されています。'},
+            { english: 'the Mississippi River', japanese: 'ミシシッピ川', sentence: 'The Mississippi River is a major river in North America.', sentence_ja: 'ミシシッピ川は北米の主要な川です。'},
+            { english: 'the Great Lakes', japanese: '五大湖', sentence: 'The Great Lakes are a group of five large lakes in North America.', sentence_ja: '五大湖は北米にある5つの大きな湖の集まりです。'},
+            { english: 'flexibility', japanese: '柔軟性, 適応性', sentence: 'This job requires a high degree of flexibility.', sentence_ja: 'この仕事は高度な柔軟性を必要とします。'},
+            { english: 'as long as S V', japanese: '…しさえずれば', sentence: 'You can go out as long as you finish your chores.', sentence_ja: '家事を終えさえすれば、外出してもいいですよ。'},
+            { english: 'challenge', japanese: '困難', sentence: 'Learning a new skill can be a big challenge.', sentence_ja: '新しいスキルを学ぶことは大きな困難になり得ます。'},
+            { english: 'region', japanese: '地域', sentence: 'This region is known for its beautiful scenery.', sentence_ja: 'この地域は美しい風景で知られています。'},
+            { english: 'silt', japanese: '(沈泥)シルト', sentence: 'The river carries a lot of silt during the rainy season.', sentence_ja: '雨季には、その川は多くのシルトを運びます。'},
+            { english: 'require', japanese: '～を必要とする', sentence: 'The project will require a lot of time and effort.', sentence_ja: 'そのプロジェクトは多くの時間と労力を必要とします。'},
+            { english: 'obstacle', japanese: '障害, 難路', sentence: 'He overcame many obstacles to succeed.', sentence_ja: '彼は成功するために多くの障害を乗り越えました。'},
+            { english: 'rely on A', japanese: 'Aを頼りにする, Aに依存する', sentence: 'I rely on my alarm clock to wake me up in the morning.', sentence_ja: '私は朝起きるために目覚まし時計を頼りにしています。'},
+            { english: 'make one\'s way', japanese: '進む', sentence: 'She had to make her way through the dense forest.', sentence_ja: '彼女は密な森の中を進まなければなりませんでした。'},
+            { english: 'coastal', japanese: '沿岸の', sentence: 'We stayed in a hotel in a coastal town.', sentence_ja: '私たちは沿岸の町にあるホテルに滞在しました。'},
+            { english: 'local', japanese: '地元の', sentence: 'I enjoy shopping at the local market.', sentence_ja: '私は地元の市場で買い物をするのが好きです。'},
+            { english: 'directions', japanese: '道案内, 指示', sentence: 'Can you give me directions to the museum?', sentence_ja: '博物館への行き方を教えていただけますか？'},
+            { english: 'offer O₁ O₂', japanese: 'O₂をO₁に提供する', sentence: 'He offered her a cup of tea.', sentence_ja: '彼はお茶を彼女に提供しました。'},
+            { english: 'pick up', japanese: '～を(安く)手に入れる', sentence: 'I managed to pick up a rare book at the flea market.', sentence_ja: '私はフリーマーケットで珍しい本を安く手に入れることができました。'},
+            { english: 'exchange', japanese: '～を交換する, やりとりする', sentence: 'They met to exchange information.', sentence_ja: '彼らは情報を交換するために会いました。'},
+            { english: 'attract', japanese: '～を惹きつける', sentence: 'The colorful display is designed to attract customers.', sentence_ja: 'そのカラフルなディスプレイは顧客を惹きつけるようにデザインされています。'},
+            { english: 'retiree', japanese: '定年退職者', sentence: 'The community center offers classes for retirees.', sentence_ja: 'そのコミュニティセンターは定年退職者向けのクラスを提供しています。'},
+            { english: 'greet', japanese: '～を迎える', sentence: 'She was there to greet her guests at the door.', sentence_ja: '彼女はドアでゲストを迎えるためにそこにいました。'},
+            { english: 'track', japanese: '～を追跡する', sentence: 'The system can track the location of the package.', sentence_ja: 'そのシステムは荷物の位置を追跡できます。'},
+            { english: 'achievement', japanese: '(作業の)達成', sentence: 'Finishing the project on time was a great achievement.', sentence_ja: '時間通りにプロジェクトを終えたことは素晴らしい達成でした。'},
+            { english: 'accessible', japanese: '参加できる', sentence: 'The course is accessible to beginners.', sentence_ja: 'そのコースは初心者が参加できます。'},
+            { english: 'availability', japanese: '手に入りやすいこと', sentence: 'We need to check the availability of the meeting room.', sentence_ja: '私たちは会議室が手に入りやすいか確認する必要があります。'},
+            { english: 'reliable', japanese: '頼りになる, 確かな', sentence: 'We need a reliable car for our long trip.', sentence_ja: '私たちの長い旅行には信頼できる車が必要です。'},
+            { english: 'remotely', japanese: '遠く離れて, リモートで', sentence: 'He has been working remotely for the past two years.', sentence_ja: '彼は過去2年間リモートで働いています。'},
+            { english: 'allow O to do', japanese: 'Oが…することを可能にする', sentence: 'His savings allow him to travel the world.', sentence_ja: '彼の貯金は彼が世界を旅することを可能にします。'},
+            { english: 'manage', japanese: '～にうまく対処する, ～を管理する', sentence: 'She learned how to manage her time more efficiently.', sentence_ja: '彼女は時間をより効率的に管理する方法を学びました。'},
+            { english: 'mobile app', japanese: '携帯用アプリ', sentence: 'I downloaded a new mobile app for editing photos.', sentence_ja: '私は写真を編集するための新しい携帯アプリをダウンロードしました。'},
+            { english: 'update', japanese: '最新情報', sentence: 'I will send you an update on our progress.', sentence_ja: '私たちの進捗に関する最新情報をお送りします。'},
+            { english: 'fascinating', japanese: '興味深い', sentence: 'The museum had a fascinating exhibit on ancient Egypt.', sentence_ja: 'その博物館には古代エジプトに関する興味深い展示がありました。'},
+            { english: 'phenomenon', japanese: '現象', sentence: 'The aurora borealis is a beautiful natural phenomenon.', sentence_ja: 'オーロラは美しい自然現象です。'},
+            { english: 'New England', japanese: 'ニューイングランド', sentence: 'New England is known for its beautiful autumn foliage.', sentence_ja: 'ニューイングランドは美しい秋の紅葉で知られています。'},
+            { english: 'turn into A', japanese: 'Aに変わる', sentence: 'The caterpillar will turn into a butterfly.', sentence_ja: 'その青虫は蝶に変わります。'},
+            { english: 'substance', japanese: '物質', sentence: 'The police found a mysterious white substance.', sentence_ja: '警察は謎の白い物質を発見しました。'},
+            { english: 'bear', japanese: '～を生む, ～(実など)をつける', sentence: 'The apple tree began to bear fruit.', sentence_ja: 'そのリンゴの木は実をつけ始めました。'},
+            { english: 'component', japanese: '構成要素', sentence: 'Communication is a vital component of a healthy relationship.', sentence_ja: 'コミュニケーションは健全な関係の不可欠な構成要素です。'},
+            { english: 'maple syrup', japanese: 'メープルシロップ', sentence: 'I love pancakes with maple syrup.', sentence_ja: '私はメープルシロップをかけたパンケーキが大好きです。'},
+            { english: 'maple tree', japanese: 'カエデの木', sentence: 'The leaves of the maple tree turn red in autumn.', sentence_ja: 'カエデの木の葉は秋に赤くなります。'},
+            { english: 'icicle', japanese: 'つらら, つらら状のもの', sentence: 'Icicles hung from the eaves of the house.', sentence_ja: '家の軒先からつららが下がっていました。'},
+            { english: 'contain', japanese: '形成される', sentence: 'This box contains old letters.', sentence_ja: 'この箱には古い手紙が入っています。'},
+            { english: 'branch', japanese: '枝', sentence: 'A bird built its nest on a high branch.', sentence_ja: '鳥が高い枝に巣を作りました。'},
+            { english: 'convert O into A', japanese: 'OをAに変換する', sentence: 'The factory converts raw materials into finished products.', sentence_ja: 'その工場は原材料を完成品に変換します。'},
+            { english: 'growth', japanese: '生長', sentence: 'The region has seen significant economic growth.', sentence_ja: 'その地域は著しい経済成長を遂げました。'},
+            { english: 'temperature', japanese: '温度, 気温', sentence: 'The temperature dropped sharply overnight.', sentence_ja: '気温は夜間に急激に下がりました。'},
+            { english: 'store', japanese: '～を蓄える', sentence: 'Squirrels store nuts for the winter.', sentence_ja: 'リスは冬のために木の実を蓄えます。'},
+            { english: 'starch', japanese: 'デンプン', sentence: 'Potatoes are rich in starch.', sentence_ja: 'ジャガイモはデンプンが豊富です。'},
+            { english: 'warm up', japanese: '温まる', sentence: 'Let\'s go inside to warm up.', sentence_ja: '中に入って温まりましょう。'},
+            { english: 'convert back into A', japanese: '変化してAに戻る', sentence: 'When the ice melts, it will convert back into water.', sentence_ja: '氷が溶けると、水に変化して戻ります。'},
+            { english: 'pass into A', japanese: 'Aに溶け込む, 変化する', sentence: 'The dye will slowly pass into the fabric.', sentence_ja: '染料はゆっくりと布に溶け込んでいきます。'},
+            { english: 'flow', japanese: '流れる, 流れ出す', sentence: 'The river continues to flow to the sea.', sentence_ja: '川は海へと流れ続けます。'},
+            { english: 'opening', japanese: '割れ目', sentence: 'He found an opening in the clouds.', sentence_ja: '彼は雲の割れ目を見つけました。'},
+            { english: 'hurt', japanese: '～を傷つける, 害する', sentence: 'His words hurt her feelings.', sentence_ja: '彼の言葉は彼女の感情を傷つけました。'},
+            { english: 'responsible', japanese: '責任がある', sentence: 'You are responsible for your own actions.', sentence_ja: 'あなたは自分の行動に責任があります。'},
+            { english: 'treat', japanese: 'ごちそう, 甘いお菓子', sentence: 'My grandmother always has a special treat for me.', sentence_ja: '祖母はいつも私のために特別なお菓子を用意してくれます。'},
+            { english: 'avoid doing', japanese: '…することを避ける', sentence: 'I try to avoid eating too much fast food.', sentence_ja: '私はファーストフードを食べ過ぎるのを避けるようにしています。'},
+            { english: 'diameter', japanese: '直径', sentence: 'The circle has a diameter of 10 cm.', sentence_ja: 'その円は直径10cmです。'},
+            { english: 'drill a hole', japanese: '穴をあける', sentence: 'We need to drill a hole in the wall to hang the picture.', sentence_ja: 'その絵を掛けるために壁に穴をあける必要があります。'},
+            { english: 'bark', japanese: '樹皮', sentence: 'The bark of the tree was rough to the touch.', sentence_ja: 'その木の樹皮は触るとざらざらしていました。'},
+            { english: 'fit O with A', japanese: 'AをOにはめ込む', sentence: 'He will fit the new computer with more memory.', sentence_ja: '彼は新しいコンピュータにより多くのメモリを取り付けます。'},
+            { english: 'boil down', japanese: '～を煮詰める', sentence: 'Let\'s boil down the sauce to make it thicker.', sentence_ja: 'ソースを濃くするために煮詰めましょう。'},
+            { english: 'sugar content', japanese: '糖分', sentence: 'Be aware of the sugar content in soft drinks.', sentence_ja: '清涼飲料水の糖分に注意してください。'},
+            { english: 'concentrate O to A', japanese: 'OをAまで濃縮する', sentence: 'You need to concentrate the juice to 50% of its original volume.', sentence_ja: 'ジュースを元の体積の50%まで濃縮する必要があります。'},
+            { english: 'steam', japanese: '蒸気', sentence: 'Steam was rising from the hot spring.', sentence_ja: '温泉から蒸気が立ち上っていました。'},
+            { english: 'gallon', japanese: 'ガロン', sentence: 'A gallon of milk is too much for me.', sentence_ja: '1ガロンの牛乳は私には多すぎます。'},
+            { english: 'bittersy', japanese: '苦く', sentence: 'She smiled bittersy at the memory.', sentence_ja: '彼女はその思い出に苦笑しました。'},
+            { english: 'open fire', japanese: '焚き火, 直火', sentence: 'We sat around the open fire and told stories.', sentence_ja: '私たちは焚き火を囲んで座り、物語を語りました。'},
+            { english: 'charm', japanese: '魅力', sentence: 'The small village has a lot of charm.', sentence_ja: 'その小さな村には多くの魅力があります。'},
+            { english: 'drive O inside', japanese: 'Oを中に追いやる', sentence: 'The sudden rainstorm drove everyone inside.', sentence_ja: '突然の豪雨が皆を屋内に追いやりました。'},
+            { english: 'signal', japanese: '～のきざしとなる', sentence: 'The first blossoms signal the arrival of spring.', sentence_ja: '最初の花は春の到来のきざしとなります。'},
+            { english: 'ahead', japanese: '(名前の後に)前方の, これからやってくる', sentence: 'A long journey lies ahead of us.', sentence_ja: '私たちの前方には長い旅が待っています。'},
+            { english: 'tiny', japanese: '小さな', sentence: 'A tiny insect was crawling on the leaf.', sentence_ja: '小さな昆虫が葉の上を這っていました。'},
+            { english: 'Polish', japanese: 'ポーランドの', sentence: 'She cooked a traditional Polish dinner for us.', sentence_ja: '彼女は私たちのために伝統的なポーランドの夕食を作ってくれました。'},
+            { english: 'unlikely', japanese: '可能性の低い, 起こりにくい', sentence: 'It is unlikely that he will arrive on time.', sentence_ja: '彼が時間通りに到着する可能性は低いです。'},
+            { english: 'source', japanese: 'もと, 源', sentence: 'The internet is a major source of information.', sentence_ja: 'インターネットは情報の主要な源です。'},
+            { english: 'attention', japanese: '注目', sentence: 'The case has attracted international attention.', sentence_ja: 'その事件は国際的な注目を集めました。'},
+            { english: 'as a result of A', japanese: 'Aの結果として', sentence: 'The game was cancelled as a result of the heavy rain.', sentence_ja: '大雨の結果として、その試合は中止されました。'},
+            { english: 'anomaly', japanese: '異常, 変則', sentence: 'The scientists are investigating a strange anomaly in the data.', sentence_ja: '科学者たちはデータの奇妙な異常を調査しています。'},
+            { english: 'decade', japanese: '10年', sentence: 'The company has been successful for more than a decade.', sentence_ja: 'その会社は10年以上にわたって成功しています。'},
+            { english: 'mayor', japanese: '地方自治体の長', sentence: 'The mayor will give a speech at the ceremony.', sentence_ja: '市長は式典でスピーチをします。'},
+            { english: 'article', japanese: '記事', sentence: 'I read an interesting article about renewable energy.', sentence_ja: '再生可能エネルギーに関する興味深い記事を読みました。'},
+            { english: 'presumably', japanese: 'おそらく', sentence: 'Presumably, the package will arrive tomorrow.', sentence_ja: 'おそらく、その小包は明日到着するでしょう。'},
+            { english: 'geneticist', japanese: '遺伝学者', sentence: 'The geneticist is studying the causes of the disease.', sentence_ja: 'その遺伝学者はその病気の原因を研究しています。'},
+            { english: 'explore', japanese: '～を詳しく調べる, 探求する', sentence: 'We need to explore all possible solutions.', sentence_ja: '私たちはすべての可能な解決策を探求する必要があります。'},
+            { english: 'sequence', japanese: '連続, 配列', sentence: 'Please arrange the files in chronological sequence.', sentence_ja: 'ファイルを年代順の配列に並べてください。'},
+            { english: 'suggestion', japanese: '示唆, 可能性', sentence: 'Do you have any suggestions for improvement?', sentence_ja: '改善のための何か提案はありますか？'},
+            { english: 'mention', japanese: '～に言及する', sentence: 'He didn\'t mention anything about his plans.', sentence_ja: '彼は彼の計画について何も言及しませんでした。'},
+            { english: 'statistical', japanese: '統計上の', sentence: 'The research is based on statistical data.', sentence_ja: 'その研究は統計データに基づいています。'},
+            { english: 'coincidence', japanese: '(偶然の)一致, 同時発生', sentence: 'It was a pure coincidence that we were on the same flight.', sentence_ja: '私たちが同じフライトに乗っていたのは全くの偶然でした。'},
+            { english: 'outcome', japanese: '結果', sentence: 'We are all hoping for a positive outcome.', sentence_ja: '私たちは皆、前向きな結果を望んでいます。'},
+            { english: 'probability', japanese: '確率', sentence: 'The probability of winning the lottery is very low.', sentence_ja: '宝くじに当たる確率は非常に低いです。'},
+            { english: 'any given A', japanese: 'ある(任意の)A', sentence: 'The system can be accessed at any given time.', sentence_ja: 'そのシステムは任意の時間にアクセスできます。'},
+            { english: 'assume that S V', japanese: '…と想定する, …を当然だと思う', sentence: 'I assume that you are familiar with the procedures.', sentence_ja: 'あなたがその手順に精通していると私は想定します。'},
+            { english: 'independent of A', japanese: 'Aと無関係の', sentence: 'The review committee is independent of the management.', sentence_ja: 'その審査委員会は経営陣とは無関係です。'},
+            { english: 'previous', japanese: '以前の, 先の', sentence: 'The previous owner of the house was an artist.', sentence_ja: 'その家の以前の所有者は芸術家でした。'},
+            { english: 'by extension', japanese: 'さらに言うと', sentence: 'His comments were a critique of the policy and, by extension, the government.', sentence_ja: '彼のコメントはその政策、さらに言えば政府に対する批判でした。'},
+            { english: 'consecutive', japanese: '連続の', sentence: 'She won the award for the third consecutive year.', sentence_ja: '彼女は3年連続でその賞を受賞しました。'},
+            { english: 'sound C', japanese: 'Cに聞こえる', sentence: 'That sounds like a good idea.', sentence_ja: 'それは良い考えのように聞こえます。'},
+            { english: 'extremely', japanese: 'きわめて, 極端に', sentence: 'This is an extremely important matter.', sentence_ja: 'これはきわめて重要な問題です。'},
+            { english: 'chance', japanese: '見込み, 可能性', sentence: 'Is there any chance of getting tickets for the concert?', sentence_ja: 'そのコンサートのチケットを手に入れる見込みはありますか？'},
+            { english: 'bother with A', japanese: 'Aで悩む', sentence: 'Don\'t bother with the small details, focus on the big picture.', sentence_ja: '小さな詳細で悩まず、全体像に集中してください。'},
+            { english: 'odds', japanese: '見込み, 可能性', sentence: 'The odds of success are very slim.', sentence_ja: '成功の見込みは非常に薄いです。'},
+            { english: 'relate to A', japanese: 'Aと関係がある', sentence: 'How does this evidence relate to the case?', sentence_ja: 'この証拠はその事件とどのように関係がありますか？'},
+            { english: 'likewise', japanese: '同様に', sentence: 'She is an excellent student, and her brother is likewise talented.', sentence_ja: '彼女は優秀な学生であり、同様に彼女の兄も才能があります。'},
+            { english: 'newsworthy', japanese: '報道価値のある', sentence: 'The event was not considered newsworthy by the major networks.', sentence_ja: 'その出来事は主要なネットワークによって報道価値があるとは見なされませんでした。'},
+            { english: 'instead of A', japanese: 'Aの代わりに, Aではなく', sentence: 'Let\'s have fish instead of meat for dinner.', sentence_ja: '夕食には肉の代わりに魚を食べましょう。'},
+            { english: 'change O to A', japanese: 'OをAに変える', sentence: 'He decided to change his career path to teaching.', sentence_ja: '彼は自分のキャリアパスを教職に変えることを決意しました。'},
+            { english: 'detail', japanese: '詳細, 詳細な情報', sentence: 'He explained the plan in great detail.', sentence_ja: '彼はその計画を非常に詳細に説明しました。'},
+            { english: 'contain O', japanese: 'Oを含む', sentence: 'The document contains sensitive information.', sentence_ja: 'その文書は機密情報を含んでいます。'},
+            { english: 'suggest (that) S V', japanese: '…と示唆する', sentence: 'The study suggests that a new approach is needed.', sentence_ja: 'その研究は新しいアプローチが必要であることを示唆しています。'},
+            { english: 'across A', japanese: 'Aの中に, 全域で', sentence: 'The festival is celebrated across the nation.', sentence_ja: 'その祭りは国中で祝われます。'},
+            { english: 'based on A', japanese: 'Aに基づいて', sentence: 'The decision was based on the information we had.', sentence_ja: 'その決定は私たちが持っていた情報に基づいていました。'},
+            { english: 'roughly', japanese: 'およそ', sentence: 'The town has a population of roughly 10,000.', sentence_ja: 'その町の人口はおよそ1万人です。'},
+            { english: 'similar', japanese: '同様の', sentence: 'The two paintings have a similar style.', sentence_ja: 'その二つの絵は同様のスタイルをしています。'},
+            { english: 'right now', japanese: 'ちょうど今', sentence: 'I am a little busy right now.', sentence_ja: '私はちょうど今、少し忙しいです。'},
+            { english: 'part of A', japanese: 'Aの一部', sentence: 'This is just part of the problem.', sentence_ja: 'これは問題の一部にすぎません。'},
+            { english: 'capture O', japanese: 'Oをとらえる', sentence: 'The photo perfectly captures the mood of the moment.', sentence_ja: 'その写真は瞬間の雰囲気を完璧にとらえています。'},
+            { english: 'down to A', japanese: 'Aに依存して', sentence: 'The final decision is down to the manager.', sentence_ja: '最終的な決定はマネージャーに依存しています。'},
+            { english: 'timescale', japanese: '期間', sentence: 'We need to establish a clear timescale for the project.', sentence_ja: '私たちはプロジェクトのための明確な期間を設定する必要があります。'},
+            { english: 'involved', japanese: '関係して', sentence: 'She was deeply involved in the local community.', sentence_ja: '彼女は地域社会に深く関わっていました。'},
+            { english: 'extend O', japanese: 'Oを延長する, 延ばす', sentence: 'The company decided to extend the deadline.', sentence_ja: 'その会社は締め切りを延長することを決定しました。'},
+            { english: 'attract O', japanese: 'Oを引きつける', sentence: 'The new theme park will attract many tourists.', sentence_ja: '新しいテーマパークは多くの観光客を引きつけるでしょう。'},
+            { english: 'in comparison', japanese: 'Aに対して', sentence: 'In comparison with other cities, this one is very clean.', sentence_ja: '他の都市と比較して、この都市は非常に清潔です。'},
+            { english: 'correspond to A', japanese: 'Aに一致する, 相当する', sentence: 'The results of the study correspond to our expectations.', sentence_ja: 'その研究の結果は私たちの期待と一致します。'},
+            { english: 'notice', japanese: '気づく', sentence: 'I didn\'t notice you were there.', sentence_ja: 'あなたがそこにいることに気づきませんでした。'},
+            { english: 'following', japanese: '次の', sentence: 'The following day, we left for the airport.', sentence_ja: '次の日、私たちは空港へ出発しました。'},
+            { english: 'exact', japanese: '正確な, まさにその', sentence: 'Can you tell me the exact time?', sentence_ja: '正確な時間を教えていただけますか？'},
+            { english: 'achieve O', japanese: 'Oを達成する', sentence: 'With hard work, you can achieve your dreams.', sentence_ja: '努力すれば、あなたは夢を達成できます。'},
+            { english: 'random', japanese: '無作為の, 偶然の', sentence: 'The teams were selected by a random process.', sentence_ja: 'チームは無作為のプロセスで選ばれました。'},
+            { english: 'under sense of A', japanese: 'Aの意味で', sentence: 'He used the word in a different sense of A.', sentence_ja: '彼はその言葉をAの異なる意味で使いました。'},
+            { english: 'probabilistic', japanese: '確率の', sentence: 'The model provides a probabilistic forecast.', sentence_ja: 'そのモデルは確率的な予測を提供します。'},
+            { english: 'paradox', japanese: '矛盾, パラドックス', sentence: 'It\'s a paradox that technology can both connect and isolate people.', sentence_ja: 'テクノロジーが人々をつなげると同時に孤立させることができるというのはパラドックスです。'},
+            { english: 'essentially', japanese: '本質的に, つまるところ', sentence: 'Essentially, the argument is about money.', sentence_ja: 'つまるところ、その議論はお金に関するものです。'},
+            { english: 'statistician', japanese: '統計学者', sentence: 'The statistician presented the results of the survey.', sentence_ja: 'その統計学者は調査の結果を発表しました。'},
+            { english: 'exist', japanese: '存在する', sentence: 'Do you think life could exist on other planets?', sentence_ja: 'あなたは他の惑星に生命が存在すると思いますか？'},
+            { english: 'instead', japanese: '代わりに, そうではなく', sentence: 'There was no coffee, so I drank tea instead.', sentence_ja: 'コーヒーがなかったので、代わりに紅茶を飲みました。'},
+            { english: 'inverse', japanese: '逆の', sentence: 'The relationship between price and demand is often inverse.', sentence_ja: '価格と需要の関係はしばしば逆です。'},
+            { english: 'improbable', japanese: 'ありそうもない', sentence: 'His story of surviving the crash seemed improbable.', sentence_ja: 'その事故から生還したという彼の話はありそうもありませんでした。'},
+            { english: 'indeed', japanese: '(それどころか)実際に', sentence: 'The weather was cold, indeed.', sentence_ja: '天気は実際に寒かったです。'},
+            { english: 'lead to A', japanese: 'Aを導く', sentence: 'Hard work can lead to success.', sentence_ja: '努力は成功を導くことができます。'},
+            { english: 'incorporate O', japanese: 'Oを取り入れる, 組み込む', sentence: 'We will incorporate your suggestions into the final plan.', sentence_ja: '私たちはあなたの提案を最終計画に組み込みます。'},
+            { english: 'artificial intelligence', japanese: '人工知能 (AI)', sentence: 'Artificial intelligence is transforming many industries.', sentence_ja: '人工知能は多くの産業を変革しています。'},
+            { english: 'double that', japanese: 'その2倍', sentence: 'The cost was double that of the original estimate.', sentence_ja: '費用は当初の見積もりの2倍でした。'},
+            { english: 'machine learning', japanese: '機械学習', sentence: 'Machine learning is a subset of artificial intelligence.', sentence_ja: '機械学習は人工知能の一部です。'},
+            { english: 'line', japanese: '行, 列', sentence: 'Please sign on the dotted line.', sentence_ja: '点線の上にご署名ください。'},
+            { english: 'text', japanese: '文章, テキスト', sentence: 'I received a text message from him.', sentence_ja: '彼からテキストメッセージを受け取りました。'},
+            { english: 'close to A', japanese: 'Aに近く, ほとんどA', sentence: 'The project is close to completion.', sentence_ja: 'そのプロジェクトはほとんど完成に近いです。'},
+            { english: 'accuracy', japanese: '正確さ, 精度', sentence: 'The accuracy of the data is crucial.', sentence_ja: 'データの正確さは非常に重要です。'},
+            { english: 'assistive technology', japanese: '支援技術, 補助技術', sentence: 'Assistive technology can help people with disabilities.', sentence_ja: '支援技術は障害を持つ人々を助けることができます。'},
+            { english: 'sensitivity', japanese: '感度, 敏感さ', sentence: 'This camera has high sensitivity to light.', sentence_ja: 'このカメラは光に対する感度が高いです。'},
+            { english: 'fingertip', japanese: '指先', sentence: 'He has the information at his fingertips.', sentence_ja: '彼はその情報をすぐに使えるようにしています。'},
+            { english: 'remarkably', japanese: '驚くほど, 非常に', sentence: 'She performed remarkably well under pressure.', sentence_ja: '彼女はプレッシャーの下で驚くほど良いパフォーマンスをしました。'},
+            { english: 'tiny', japanese: '小さな, ごくわずかな', sentence: 'I found a tiny crack in the vase.', sentence_ja: '私は花瓶にごくわずかなひびを見つけました。'},
+            { english: 'material', japanese: '物質, 素材', sentence: 'This jacket is made from a waterproof material.', sentence_ja: 'このジャケットは防水素材で作られています。'},
+            { english: 'grasp', japanese: '～をつかむ, 握る', sentence: 'He grasped my hand firmly.', sentence_ja: '彼は私の手をしっかりと握りました。'},
+            { english: 'pick O up', japanese: 'Oを拾い上げる, 持ち上げる', sentence: 'Could you pick up that book for me?', sentence_ja: 'その本を私のために拾い上げてもらえますか？'},
+            { english: 'reproduce', japanese: '～を再現する', sentence: 'The artist tried to reproduce the colors of the sunset.', sentence_ja: 'その芸術家は夕日の色を再現しようとしました。'},
+            { english: 'energy-efficient', japanese: 'エネルギー効率が良い', sentence: 'We should use more energy-efficient appliances.', sentence_ja: '私たちはもっとエネルギー効率の良い家電を使うべきです。'},
+            { english: 'engineering', japanese: '工学', sentence: 'She is studying civil engineering at university.', sentence_ja: '彼女は大学で土木工学を学んでいます。'},
+            { english: 'department', japanese: '学部', sentence: 'He is the head of the history department.', sentence_ja: '彼は歴史学部の学部長です。'},
+            { english: 'softness', japanese: '柔らかさ', sentence: 'The softness of the pillow helped her sleep.', sentence_ja: '枕の柔らかさが彼女の睡眠を助けました。'},
+            { english: 'undergraduate', japanese: '学部生', sentence: 'The lecture is open to all undergraduate students.', sentence_ja: 'その講義はすべての学部生に開かれています。'},
+            { english: 'characteristic', japanese: '特性, 特徴', sentence: 'One characteristic of this bird is its bright color.', sentence_ja: 'この鳥の一つの特徴はその鮮やかな色です。'},
+            { english: 'tricky', japanese: '難しい, 厄介な', sentence: 'It\'s a tricky situation, and we need to be careful.', sentence_ja: 'それは厄介な状況であり、私たちは注意する必要があります。'},
+            { english: 'deal with A', japanese: 'Aを扱う', sentence: 'I have to deal with a lot of paperwork.', sentence_ja: '私はたくさんの書類を扱わなければなりません。'},
+            { english: 'deformative', japanese: '歪んだ, 変形しやすい', sentence: 'The sculpture was made from a deformative metal.', sentence_ja: 'その彫刻は変形しやすい金属で作られていました。'},
+            { english: 'representative', japanese: '代表的な, 表示', sentence: 'He is a representative of the company.', sentence_ja: '彼はその会社の代表者です。'},
+            { english: 'replicate', japanese: '～を再現する, 模倣する', sentence: 'They will try to replicate the success of the first product.', sentence_ja: '彼らは最初の製品の成功を再現しようとします。'},
+            { english: 'existing', japanese: '既存の, 従来の', sentence: 'The new plan will replace the existing one.', sentence_ja: '新しい計画は既存のものに取って代わります。'},
+            { english: 'co-author', japanese: '共著者', sentence: 'The book was written by a lead author and a co-author.', sentence_ja: 'その本は主著者と共著者によって書かれました。'},
+            { english: 'static', japanese: '静的な', sentence: 'The population has remained static for several years.', sentence_ja: '人口は数年間静的なままでした。'},
+            { english: 'roboticist', japanese: 'ロボット研究者', sentence: 'The roboticist is developing a robot that can help the elderly.', sentence_ja: 'そのロボット研究者は高齢者を助けることができるロボットを開発しています。'},
+            { english: 'image processing', japanese: '画像処理', sentence: 'Advanced image processing is required for this task.', sentence_ja: 'このタスクには高度な画像処理が必要です。'},
+            { english: 'blur', japanese: 'はっきり見えないもの, ブレ, ぼかし', sentence: 'Everything was a blur without my glasses.', sentence_ja: '眼鏡がないとすべてがぼやけていました。'},
+            { english: 'time- and energy-consuming', japanese: '時間とエネルギーを消費する', sentence: 'Writing a book is a time- and energy-consuming process.', sentence_ja: '本を書くことは時間とエネルギーを消費するプロセスです。'},
+            { english: 'recognize', japanese: '～を認識する', sentence: 'I didn\'t recognize her at first.', sentence_ja: '最初は彼女だと認識できませんでした。'},
+            { english: 'set A', japanese: '一連のA', sentence: 'There is a specific set of rules you must follow.', sentence_ja: 'あなたが従わなければならない一連の特定の規則があります。'},
+            { english: 'apply', japanese: '～を適用する, 利用する', sentence: 'We need to apply this new method to our work.', sentence_ja: '私たちはこの新しい方法を仕事に適用する必要があります。'},
+            { english: 'classify', japanese: '～を分類する', sentence: 'The books are classified by subject.', sentence_ja: '本は主題によって分類されています。'},
+            { english: 'applicable', japanese: '応用可能な', sentence: 'The discount is applicable to all items.', sentence_ja: 'その割引はすべての商品に応用可能です。'},
+            { english: 'beyond A', japanese: 'Aを超えて', sentence: 'His courage is beyond doubt.', sentence_ja: '彼の勇気は疑う余地もありません。'},
+            { english: 'application', japanese: '応用', sentence: 'This tool has a wide range of applications.', sentence_ja: 'このツールには幅広い応用があります。'},
+            { english: 'manipulate', japanese: '操作', sentence: 'He knows how to manipulate the system to his advantage.', sentence_ja: '彼はシステムを自分に有利に操作する方法を知っています。'},
+            { english: 'scale', japanese: '～の規模を変える', sentence: 'The company needs to scale its operations to meet the growing demand.', sentence_ja: 'その会社は増大する需要に応えるために事業の規模を変える必要があります。'},
+            { english: 'humanoid', japanese: '人間のかたちをしたロボット', sentence: 'The company unveiled its latest humanoid robot.', sentence_ja: 'その会社は最新の人型ロボットを発表しました。'},
+            { english: 'not only A but also B', japanese: 'AだけでなくBも', sentence: 'She is not only smart but also kind.', sentence_ja: '彼女は賢いだけでなく親切でもあります。'},
+            { english: 'significant influence', japanese: 'ものすごく影響があった', sentence: 'His speech had a significant influence on the audience.', sentence_ja: '彼のスピーチは聴衆にものすごく影響がありました。'},
+            { english: 'the new words', japanese: '世間の人々がこぞって真似をするようになり', sentence: 'The new words from the internet are quickly adopted by young people.', sentence_ja: 'インターネットからの新しい言葉は若者たちにすぐに取り入れられます。'},
+            { english: 'in a row', japanese: '連続して', sentence: 'It has rained for three days in a row.', sentence_ja: '3日間連続で雨が降っています。'},
+            { english: 'across the country', japanese: '全国に', sentence: 'The news spread quickly across the country.', sentence_ja: 'そのニュースは全国に急速に広まりました。'},
+            { english: 'spread', japanese: '広まっていった', sentence: 'The rumor spread like wildfire.', sentence_ja: 'その噂は野火のように広まっていきました。'},
+            { english: 'dispatch', japanese: '派遣, 出動', sentence: 'An ambulance was dispatched to the scene of the accident.', sentence_ja: '救急車が事故現場に派遣されました。'},
+            { english: 'fee', japanese: '料金', sentence: 'There is an entrance fee for the museum.', sentence_ja: 'その博物館には入場料があります。'},
+            { english: 'charge', japanese: '～(料金)を請求する', sentence: 'The hotel will charge your credit card for the room.', sentence_ja: 'ホテルは部屋代をあなたのクレジットカードに請求します。'},
+            { english: 'those who', japanese: '…する人々', sentence: 'This event is open to those who are interested in art.', sentence_ja: 'このイベントは芸術に興味がある人々に開かれています。'},
+            { english: 'ultimately', japanese: '最終的に', sentence: 'Ultimately, the decision is yours.', sentence_ja: '最終的に、決定はあなた次第です。'},
+            { english: 'hospitalization', japanese: '入院', sentence: 'His injury required a long hospitalization.', sentence_ja: '彼の怪我は長期の入院を必要としました。'},
+            { english: 'since S V', japanese: '…なので', sentence: 'Since you are here, you can help me with this.', sentence_ja: 'あなたがここにいるので、これを手伝ってもらえます。'},
+            { english: 'casually', japanese: '気軽に', sentence: 'They were chatting casually in the cafe.', sentence_ja: '彼らはカフェで気軽に雑談していました。'},
+            { english: 'too', japanese: 'あまりに', sentence: 'This coffee is too hot to drink.', sentence_ja: 'このコーヒーはあまりに熱くて飲めません。'},
+            { english: 'in real need', japanese: '本当に必要な', sentence: 'We should help those who are in real need.', sentence_ja: '私たちは本当に必要な人々を助けるべきです。'},
+            { english: 'hesitate to do', japanese: '…するのをためらう', sentence: 'Don\'t hesitate to ask for help.', sentence_ja: '助けを求めるのをためらわないでください。'},
+            { english: 'similar to A', japanese: 'Aに似ている', sentence: 'Your car is very similar to mine.', sentence_ja: 'あなたの車は私のととても似ています。'},
+            { english: 'fare', japanese: '運賃', sentence: 'What is the bus fare to the city center?', sentence_ja: '市中心部までのバスの運賃はいくらですか？'},
+            { english: 'ideal', japanese: '理想的な', sentence: 'This is an ideal location for a new school.', sentence_ja: 'ここは新しい学校にとって理想的な場所です。'},
+            { english: 'at least', japanese: '少なくとも', sentence: 'You should drink at least eight glasses of water a day.', sentence_ja: '一日に少なくとも8杯の水を飲むべきです。'},
+            { english: 'train O to do', japanese: 'Oが…できるように訓練する', sentence: 'He was trained to become a pilot.', sentence_ja: '彼はパイロットになるために訓練されました。'},
+            { english: 'assess', japanese: '～を判断する, 評価する', sentence: 'We need to assess the risks before we proceed.', sentence_ja: '進む前にリスクを評価する必要があります。'},
+            { english: 'medical issue', japanese: '医療問題, 救急問題', sentence: 'He is dealing with a serious medical issue.', sentence_ja: '彼は深刻な医療問題に対処しています。'},
+            { english: 'emergency call', japanese: '救急通報', sentence: 'She made an emergency call when she saw the fire.', sentence_ja: '彼女は火事を見て救急通報をしました。'},
+            { english: 'filter out', japanese: '～をふるいにかける, 除外する', sentence: 'The system can filter out unwanted emails.', sentence_ja: 'そのシステムは不要なメールを除外することができます。'},
+            { english: 'educate', japanese: '～を教育する', sentence: 'It is important to educate children about healthy eating.', sentence_ja: '子供たちに健康的な食事について教育することは重要です。'},
+            { english: 'the public', japanese: '一般大衆', sentence: 'The new law was not popular with the public.', sentence_ja: '新しい法律は一般大衆に人気がありませんでした。'}
+        ];
+
+        // --- STATE ---
+        let selectedWords = [];
+        let currentWordIndex = 0;
+        let learningMode = 'word';
+        let quizQuestions = [];
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let incorrectAnswers = [];
+
+        // --- AUDIO STATE ---
+        let mediaRecorder;
+        let audioChunks = [];
+        let recordedAudioURL = null;
+
+        // --- DOM ELEMENTS (initialized in initializeApp) ---
+        let sections = {};
+        let wordListContainer, startLearningBtn, downloadPdfBtn, pdfModal, flashcardContainer, englishText, japaneseText, progressIndicator, prevBtn, nextBtn, startTestBtn, speakBtn, recordBtn, playRecordingBtn, recordingPlayer;
+
+        function initializeApp() {
+            // Assign DOM elements
+            sections = {
+                setup: document.getElementById('setup-section'),
+                learning: document.getElementById('learning-section'),
+                testOptions: document.getElementById('test-options-section'),
+                quiz: document.getElementById('quiz-section'),
+                results: document.getElementById('results-section'),
+            };
+            wordListContainer = document.getElementById('word-list');
+            startLearningBtn = document.getElementById('start-learning-btn');
+            downloadPdfBtn = document.getElementById('download-pdf-btn');
+            pdfModal = document.getElementById('pdf-modal');
+            flashcardContainer = document.getElementById('flashcard-container');
+            englishText = document.getElementById('english-text');
+            japaneseText = document.getElementById('japanese-text');
+            progressIndicator = document.getElementById('progress-indicator');
+            prevBtn = document.getElementById('prev-btn');
+            nextBtn = document.getElementById('next-btn');
+            startTestBtn = document.getElementById('start-test-btn');
+            speakBtn = document.getElementById('speak-btn');
+            recordBtn = document.getElementById('record-btn');
+            playRecordingBtn = document.getElementById('play-recording-btn');
+            recordingPlayer = document.getElementById('recording-player');
+
+            // Attach event listeners
+            attachEventListeners();
+
+            // Initial setup
+            populateWordList();
+            setupRecording();
+        }
+
+
+        // --- FUNCTIONS ---
+        function switchSection(sectionToShow) {
+            Object.values(sections).forEach(section => section.classList.add('hidden'));
+            if (sections[sectionToShow]) {
+                sections[sectionToShow].classList.remove('hidden');
+            }
+        }
+
+        function populateWordList() {
+            vocabulary.forEach((word, index) => {
+                const label = document.createElement('label');
+                label.className = 'flex items-center space-x-2 p-2 rounded-md hover:bg-gray-100 cursor-pointer text-sm';
+                label.innerHTML = `
+                    <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600 word-checkbox" data-index="${index}">
+                    <span>${word.english}</span>
+                `;
+                wordListContainer.appendChild(label);
+            });
+        }
+
+        function updateLearningView() {
+            const word = selectedWords[currentWordIndex];
+            learningMode = document.querySelector('input[name="mode"]:checked').value;
+
+            if (learningMode === 'sentence') {
+                let sentenceJa = word.sentence_ja || word.japanese;
+                
+                const highlightMap = {
+                    '～を提供する': '提供する', '～を(安く)手に入れる': '手に入れる', '～を交換する, やりとりする': '交換する', '～を惹きつける': '惹きつける',
+                    '～を迎える': '迎える', '～を追跡する': '追跡する', 'Oが～することを可能にする': '可能にする', '～を管理する': '管理する',
+                    '～を完全に成し遂げる': '完全に成し遂げる', 'Oが～することを期待する': '期待する', '～を航行する': '航行する',
+                    '～しさえすれば': 'しさえすれば', '～を必要とする': '必要とする', 'Aを頼りにする': '頼りにする', '進む': '進む',
+                    'Aに変わる': '変わる', '～を生む, (実など)をつける': '生む', '～を含む': '含む', 'OをAに変換する': '変換する',
+                    '～を可能にする': '可能にする', '～を蓄える': '蓄える', '変化してAに戻る': '戻る', 'Aに溶け込む': '溶け込む',
+                    '流れる': '流れる', '～を傷つける': '傷つける', '～することを避ける': '避ける', '穴をあける': '穴をあける',
+                    'AをOにはめ込む': 'はめ込む', '～を煮詰める': '煮詰める', '～を濃縮する': '濃縮する', 'Oを中に追いやる': '追いやる',
+                    '～のきざしとなる': 'きざしとなる',
+                };
+        
+                let searchTarget = highlightMap[word.japanese] || word.japanese.split('，')[0].split(',')[0].replace(/「|」| /g, '');
+
+
+                if (sentenceJa.includes(searchTarget)) {
+                    japaneseText.innerHTML = sentenceJa.replace(new RegExp(searchTarget, 'g'), `<strong><u>${searchTarget}</u></strong>`);
+                } else {
+                    japaneseText.textContent = sentenceJa;
+                }
+                
+                const targetWord = word.english.split(/[\s～(]/)[0];
+                
+                const regex = new RegExp(`(\\b${targetWord.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')}[a-z]*\\b)`, 'gi');
+                
+                if (word.sentence && regex.test(word.sentence)) {
+                    englishText.innerHTML = word.sentence.replace(regex, `<span class="underline">$1</span>`);
+                } else {
+                   englishText.innerHTML = word.sentence || word.english;
+                }
+            } else {
+                englishText.innerHTML = word.english;
+                japaneseText.textContent = word.japanese;
+            }
+            
+            japaneseText.classList.add('hidden');
+            progressIndicator.textContent = `${currentWordIndex + 1} / ${selectedWords.length}`;
+
+            prevBtn.disabled = currentWordIndex === 0;
+            nextBtn.disabled = currentWordIndex === selectedWords.length - 1;
+            prevBtn.classList.toggle('btn-disabled', prevBtn.disabled);
+            nextBtn.classList.toggle('btn-disabled', nextBtn.disabled);
+
+            playRecordingBtn.disabled = true;
+            playRecordingBtn.classList.add('btn-disabled');
+            recordedAudioURL = null;
+        }
+
+        function speak(text) {
+             if ('speechSynthesis' in window) {
+                const cleanText = text.replace(/<span class="underline">|<\/span>/g, '');
+                const utterance = new SpeechSynthesisUtterance(cleanText);
+                utterance.lang = 'en-US';
+                window.speechSynthesis.speak(utterance);
+            } else {
+                alert('お使いのブラウザは音声合成に対応していません。');
+            }
+        }
+        
+        async function setupRecording() {
+            try {
+                if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                    throw new Error('Media Devices API not supported.');
+                }
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+                
+                mediaRecorder.ondataavailable = event => {
+                    audioChunks.push(event.data);
+                };
+
+                mediaRecorder.onstop = () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                    recordedAudioURL = URL.createObjectURL(audioBlob);
+                    recordingPlayer.src = recordedAudioURL;
+                    playRecordingBtn.disabled = false;
+                    playRecordingBtn.classList.remove('btn-disabled');
+                };
+            } catch (err) {
+                console.error("Microphone access error:", err);
+                alert("マイクへのアクセスができませんでした。録音機能を使用するには、ブラウザの設定でマイクを許可してください。");
+                recordBtn.disabled = true;
+                recordBtn.classList.add('btn-disabled');
+            }
+        }
+
+        function startRecording() {
+            if (mediaRecorder && mediaRecorder.state === "inactive") {
+                audioChunks = [];
+                mediaRecorder.start();
+                recordBtn.innerHTML = '<i class="fas fa-stop mr-2"></i>録音停止';
+                recordBtn.classList.remove('btn-red');
+                recordBtn.classList.add('bg-yellow-500');
+            }
+        }
+
+        function stopRecording() {
+            if (mediaRecorder && mediaRecorder.state === "recording") {
+                mediaRecorder.stop();
+                recordBtn.innerHTML = '<i class="fas fa-microphone mr-2"></i>録音';
+                recordBtn.classList.add('btn-red');
+                recordBtn.classList.remove('bg-yellow-500');
+            }
+        }
+
+        function showTestOptions() {
+            const numSelected = selectedWords.length;
+            const testChoicesContainer = document.getElementById('test-choices');
+            testChoicesContainer.innerHTML = '';
+
+            const options = [];
+            if (numSelected >= 10) options.push(10);
+            if (numSelected >= 20) options.push(20);
+            
+            if (numSelected > 0) {
+                 options.push(numSelected);
+            }
+
+            const uniqueOptions = [...new Set(options)].sort((a,b) => a - b);
+
+
+            if (uniqueOptions.length > 0) {
+                uniqueOptions.forEach(num => {
+                    const button = document.createElement('button');
+                    button.className = 'btn btn-primary text-lg';
+                    button.textContent = `${num}問`;
+                    button.onclick = () => generateTest(num);
+                    testChoicesContainer.appendChild(button);
+                });
+            } else {
+                testChoicesContainer.innerHTML = `<p class="text-red-500">テストを行うには、少なくとも1つの単語を選択してください。</p>`;
+            }
+            switchSection('testOptions');
+        }
+
+        function generateTest(numQuestions) {
+            quizQuestions = [];
+            score = 0;
+            currentQuestionIndex = 0;
+            incorrectAnswers = [];
+            
+            const shuffled = [...selectedWords].sort(() => 0.5 - Math.random());
+            const questions = shuffled.slice(0, numQuestions);
+
+            quizQuestions = questions.map(q => {
+                const correctAnswer = q.japanese;
+                let options = [correctAnswer];
+
+                const tempVocab = vocabulary.filter(v => v.english !== q.english);
+
+                while (options.length < 4) {
+                    const randomWord = tempVocab[Math.floor(Math.random() * tempVocab.length)];
+                    if (!options.includes(randomWord.japanese)) {
+                        options.push(randomWord.japanese);
+                    }
+                }
+                return {
+                    question: q.english,
+                    correct: correctAnswer,
+                    options: options.sort(() => 0.5 - Math.random())
+                };
+            });
+            
+            displayQuizQuestion();
+            switchSection('quiz');
+        }
+
+        function displayQuizQuestion() {
+            const q = quizQuestions[currentQuestionIndex];
+            document.getElementById('quiz-question').textContent = q.question;
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = '';
+
+            q.options.forEach(option => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'quiz-option';
+                optionDiv.textContent = option;
+                optionDiv.onclick = () => selectAnswer(optionDiv, option, q.correct);
+                optionsContainer.appendChild(optionDiv);
+            });
+            
+            document.getElementById('quiz-progress').textContent = `${currentQuestionIndex + 1} / ${quizQuestions.length}`;
+            document.getElementById('feedback').textContent = '';
+            document.getElementById('next-question-btn').classList.add('hidden');
+        }
+
+        function selectAnswer(element, selectedAnswer, correctAnswer) {
+            document.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.onclick = null;
+                opt.style.cursor = 'default';
+            });
+            
+            const feedbackEl = document.getElementById('feedback');
+            
+            if (selectedAnswer === correctAnswer) {
+                element.classList.add('correct');
+                feedbackEl.textContent = '正解！';
+                feedbackEl.className = 'text-center text-xl font-bold my-4 min-h-[30px] text-green-600';
+                score++;
+            } else {
+                element.classList.add('incorrect');
+                feedbackEl.textContent = `不正解... 正解は「${correctAnswer}」`;
+                feedbackEl.className = 'text-center text-xl font-bold my-4 min-h-[30px] text-red-600';
+                incorrectAnswers.push({
+                    question: quizQuestions[currentQuestionIndex].question,
+                    correct: correctAnswer,
+                    yourAnswer: selectedAnswer,
+                });
+                 document.querySelectorAll('.quiz-option').forEach(opt => {
+                    if (opt.textContent === correctAnswer) {
+                        opt.classList.add('correct');
+                    }
+                });
+            }
+            document.getElementById('next-question-btn').classList.remove('hidden');
+        }
+        
+        function showResults() {
+            const scorePercentage = quizQuestions.length > 0 ? (score / quizQuestions.length) * 100 : 0;
+            document.getElementById('score').textContent = `${score} / ${quizQuestions.length} (${scorePercentage.toFixed(0)}%)`;
+            const list = document.getElementById('incorrect-answers-list');
+            const afterScoreP = document.querySelector('#score + p');
+            if(afterScoreP) afterScoreP.remove();
+            list.innerHTML = '';
+
+            if (incorrectAnswers.length > 0) {
+                document.getElementById('incorrect-answers-container').classList.remove('hidden');
+                incorrectAnswers.forEach(item => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<strong>${item.question}</strong><br>正解: <span class="text-green-600 font-semibold">${item.correct}</span> (あなたの解答: <span class="text-red-600 font-semibold">${item.yourAnswer}</span>)`;
+                    list.appendChild(li);
+                });
+            } else {
+                 document.getElementById('incorrect-answers-container').classList.add('hidden');
+                 if (quizQuestions.length > 0) {
+                    document.getElementById('score').insertAdjacentHTML('afterend', '<p class="text-2xl text-green-600 font-bold mt-4">全問正解！素晴らしい！</p>');
+                 }
+            }
+            switchSection('results');
+        }
+        
+        function getSelectedWordsForPdf() {
+            const checkedBoxes = document.querySelectorAll('.word-checkbox:checked');
+            if (checkedBoxes.length === 0) {
+                alert('ダウンロードする単語を1つ以上選択してください。');
+                return null;
+            }
+            const words = [];
+            checkedBoxes.forEach(cb => {
+                words.push(vocabulary[cb.dataset.index]);
+            });
+            return words;
+        }
+
+        function openPrintWindow(bodyContent, title) {
+            const htmlContent = `
+                <!DOCTYPE html>
+                <html lang="ja">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>${title}</title>
+                    <style>
+                        body { font-family: "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif; line-height: 1.8; margin: 25px; }
+                        @media print { .no-print { display: none; } }
+                        h1, h2 { text-align: center; border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 25px; }
+                        ol, ul { list-style-position: inside; padding-left: 0; }
+                        li { margin-bottom: 15px; }
+                        .list-container { column-count: 2; column-gap: 40px; }
+                        .list-container li { -webkit-column-break-inside: avoid; page-break-inside: avoid; break-inside: avoid; }
+                        @media (max-width: 700px) { .list-container { column-count: 1; } }
+                        .answer-key { page-break-before: always; }
+                    </style>
+                </head>
+                <body>
+                    <h1>${title}</h1>
+                    <p class="no-print" style="text-align:center;">
+                        印刷ダイアログが表示されない場合は、ブラウザの印刷機能（Ctrl+PまたはCmd+P）を使用してください。
+                    </p>
+                    ${bodyContent}
+                    <scr`+`ipt>
+                      setTimeout(() => { window.print(); }, 500);
+                    </scr`+`ipt>
+                </body>
+                </html>
+            `;
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(htmlContent);
+            printWindow.document.close();
+        }
+
+        function attachEventListeners() {
+            document.getElementById('select-all').addEventListener('click', () => {
+                document.querySelectorAll('.word-checkbox').forEach(cb => cb.checked = true);
+            });
+
+            document.getElementById('deselect-all').addEventListener('click', () => {
+                document.querySelectorAll('.word-checkbox').forEach(cb => cb.checked = false);
+            });
+
+            startLearningBtn.addEventListener('click', () => {
+                selectedWords = [];
+                const checkedBoxes = document.querySelectorAll('.word-checkbox:checked');
+                if (checkedBoxes.length === 0) {
+                    alert('学習する単語を1つ以上選択してください。');
+                    return;
+                }
+                checkedBoxes.forEach(cb => {
+                    selectedWords.push(vocabulary[cb.dataset.index]);
+                });
+                currentWordIndex = 0;
+                updateLearningView();
+                switchSection('learning');
+            });
+            
+            downloadPdfBtn.addEventListener('click', () => pdfModal.classList.remove('hidden'));
+            document.getElementById('close-modal-btn').addEventListener('click', () => pdfModal.classList.add('hidden'));
+
+            document.getElementById('download-list-btn').addEventListener('click', () => {
+                const words = getSelectedWordsForPdf();
+                if (!words) return;
+                const listItems = words.map(word => `<li><strong>${word.english}</strong>: ${word.japanese}</li>`).join('');
+                openPrintWindow(`<ul class="list-container">${listItems}</ul>`, '重要語句リスト');
+                pdfModal.classList.add('hidden');
+            });
+
+            document.getElementById('download-en-quiz-btn').addEventListener('click', () => {
+                const words = getSelectedWordsForPdf();
+                if (!words) return;
+                const quizItems = words.map((word, i) => `<li>(${i + 1}) ${word.japanese}: _________________________</li>`).join('');
+                const answerItems = words.map((word, i) => `<li>(${i + 1}) ${word.english}</li>`).join('');
+                const bodyContent = `<h2>問題用紙</h2><ol class="list-container">${quizItems}</ol><div class="answer-key"><h2>解答</h2><ol class="list-container">${answerItems}</ol></div>`;
+                openPrintWindow(bodyContent, '重要語句テスト (英語を解答)');
+                pdfModal.classList.add('hidden');
+            });
+
+            document.getElementById('download-ja-quiz-btn').addEventListener('click', () => {
+                const words = getSelectedWordsForPdf();
+                if (!words) return;
+                const quizItems = words.map((word, i) => `<li>(${i + 1}) ${word.english}: _________________________</li>`).join('');
+                const answerItems = words.map((word, i) => `<li>(${i + 1}) ${word.japanese}</li>`).join('');
+                const bodyContent = `<h2>問題用紙</h2><ol class="list-container">${quizItems}</ol><div class="answer-key"><h2>解答</h2><ol class="list-container">${answerItems}</ol></div>`;
+                openPrintWindow(bodyContent, '重要語句テスト (日本語を解答)');
+                pdfModal.classList.add('hidden');
+            });
+
+            document.getElementById('download-mixed-quiz-btn').addEventListener('click', () => {
+                const words = getSelectedWordsForPdf();
+                if (!words) return;
+                let quizItems = '';
+                let answerItems = '';
+                const shuffledWords = [...words].sort(() => 0.5 - Math.random());
+                shuffledWords.forEach((word, i) => {
+                    if (Math.random() > 0.5) {
+                        quizItems += `<li>(${i + 1}) ${word.japanese}: _________________________</li>`;
+                        answerItems += `<li>(${i + 1}) ${word.english}</li>`;
+                    } else {
+                        quizItems += `<li>(${i + 1}) ${word.english}: _________________________</li>`;
+                        answerItems += `<li>(${i + 1}) ${word.japanese}</li>`;
+                    }
+                });
+                const bodyContent = `<h2>問題用紙</h2><ol class="list-container">${quizItems}</ol><div class="answer-key"><h2>解答</h2><ol class="list-container">${answerItems}</ol></div>`;
+                openPrintWindow(bodyContent, '重要語句テスト (混合)');
+                pdfModal.classList.add('hidden');
+            });
+
+            document.getElementById('download-sentence-quiz-btn').addEventListener('click', () => {
+                const words = getSelectedWordsForPdf();
+                if (!words) return;
+
+                const wordsForQuiz = words.filter(w => w.sentence);
+                if(wordsForQuiz.length === 0) {
+                    alert('選択された単語には、穴埋め問題を作成できる例文がありません。');
+                    return;
+                }
+                
+                const quizItems = wordsForQuiz.map((word, i) => {
+                    const coreWord = word.english.split(/[\s～(]/)[0];
+                    const regex = new RegExp(`\\b${coreWord.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')}[a-z]*\\b`, 'gi');
+                    const blankedSentence = word.sentence.replace(regex, '_______________');
+                    return `<li>(${i + 1}) ${blankedSentence}<br>（ヒント: ${word.japanese}）</li>`;
+                }).join('');
+                const answerItems = wordsForQuiz.map((word, i) => `<li>(${i + 1}) ${word.english} (${word.sentence})</li>`).join('');
+                const bodyContent = `<h2>問題用紙</h2><ol>${quizItems}</ol><div class="answer-key"><h2>解答</h2><ol>${answerItems}</ol></div>`;
+                openPrintWindow(bodyContent, '重要語句テスト (例文穴埋め)');
+                pdfModal.classList.add('hidden');
+            });
+
+            document.getElementById('download-sentence-mixed-quiz-btn').addEventListener('click', () => {
+                const words = getSelectedWordsForPdf();
+                if (!words) return;
+
+                const wordsForQuiz = words.filter(w => w.sentence && w.sentence_ja);
+                if (wordsForQuiz.length === 0) {
+                    alert('選択された単語には、混合問題を作成できる例文がありません。');
+                    return;
+                }
+
+                let quizItems = '';
+                let answerItems = '';
+
+                const shuffledWords = [...wordsForQuiz].sort(() => 0.5 - Math.random());
+                
+                const instructionText = '英語を答える問題は文脈に従ってヒントをもとに英語を、日本語を答える問題は英文の下線部の部分を日本語に直しなさい。';
+                const generalInstruction = `<p style="text-align: left; border: 1px solid #ccc; padding: 10px; margin-bottom: 20px;">${instructionText}</p>`;
+
+                shuffledWords.forEach((word, i) => {
+                    const coreWord = word.english.split(/[\s～(]/)[0];
+                    const regex = new RegExp(`\\b${coreWord.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')}[a-z]*\\b`, 'gi');
+                    
+                    if (Math.random() > 0.5) {
+                        const blankedSentence = word.sentence.replace(regex, '_______________');
+                        quizItems += `<li>(${i + 1}) ${blankedSentence}<br>（ヒント: ${word.japanese}）</li>`;
+                        answerItems += `<li>(${i + 1}) ${word.english}</li>`;
+                    } else {
+                        const match = word.sentence.match(regex);
+                        if(match){
+                            const underlinedSentence = word.sentence.replace(match[0], `<u>${match[0]}</u>`);
+                            quizItems += `<li>(${i + 1}) ${underlinedSentence}<br>_________________________</li>`;
+                            answerItems += `<li>(${i + 1}) ${word.japanese}</li>`;
+                        } else {
+                             const blankedSentence = word.sentence.replace(word.english, '_______________');
+                             quizItems += `<li>(${i + 1}) ${blankedSentence}<br>（ヒント: ${word.japanese}）</li>`;
+                             answerItems += `<li>(${i + 1}) ${word.english}</li>`;
+                        }
+                    }
+                });
+
+                const bodyContent = `<h2>問題用紙</h2>${generalInstruction}<ol>${quizItems}</ol><div class="answer-key"><h2>解答</h2><ol class="list-container">${answerItems}</ol></div>`;
+                openPrintWindow(bodyContent, '重要語句テスト (例文混合)');
+                pdfModal.classList.add('hidden');
+            });
+
+            flashcardContainer.addEventListener('click', () => {
+                japaneseText.classList.toggle('hidden');
+            });
+            
+            prevBtn.addEventListener('click', () => {
+                if (currentWordIndex > 0) {
+                    currentWordIndex--;
+                    updateLearningView();
+                }
+            });
+
+            nextBtn.addEventListener('click', () => {
+                if (currentWordIndex < selectedWords.length - 1) {
+                    currentWordIndex++;
+                    updateLearningView();
+                }
+            });
+            
+            document.getElementById('back-to-setup-btn').addEventListener('click', () => switchSection('setup'));
+            
+            startTestBtn.addEventListener('click', showTestOptions);
+
+            speakBtn.addEventListener('click', () => {
+                const textToSpeak = learningMode === 'sentence' && selectedWords[currentWordIndex].sentence 
+                    ? selectedWords[currentWordIndex].sentence 
+                    : selectedWords[currentWordIndex].english;
+                speak(textToSpeak);
+            });
+            
+            recordBtn.addEventListener('click', () => {
+                if (!mediaRecorder) {
+                    alert("録音機能の準備ができていません。マイクを許可してください。");
+                    return;
+                }
+                if (mediaRecorder.state === "recording") {
+                    stopRecording();
+                } else {
+                    startRecording();
+                }
+            });
+
+            playRecordingBtn.addEventListener('click', () => {
+                if (recordedAudioURL) {
+                    recordingPlayer.play();
+                }
+            });
+            
+            document.getElementById('back-to-learning-btn').addEventListener('click', () => switchSection('learning'));
+            
+            document.getElementById('next-question-btn').addEventListener('click', () => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < quizQuestions.length) {
+                    displayQuizQuestion();
+                } else {
+                    showResults();
+                }
+            });
+            
+            document.getElementById('restart-btn').addEventListener('click', () => {
+                const afterScoreP = document.querySelector('#score + p');
+                if(afterScoreP) afterScoreP.remove();
+
+                selectedWords = [];
+                currentWordIndex = 0;
+                quizQuestions = [];
+                currentQuestionIndex = 0;
+                score = 0;
+                incorrectAnswers = [];
+                
+                document.querySelectorAll('.word-checkbox').forEach(cb => cb.checked = false);
+                
+                switchSection('setup');
+            });
+        }
+
+        initializeApp();
+    });
+    </script>
+</body>
+</html>
